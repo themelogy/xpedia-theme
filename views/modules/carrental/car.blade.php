@@ -102,7 +102,7 @@
                             <div class="col-md-12">
                                 <div class="x_slider_checkbox_bottom float_left">
                                     <div class="x_slider_checout_right">
-                                        <button name="reservationUpdate" type="submit" class="btn btn-primary" value="1">KİRALA</button>
+                                        <button name="reservationUpdate" type="submit" class="btn btn-primary" value="1">REZERVASYON</button>
                                     </div>
                                 </div>
                             </div>
@@ -120,21 +120,31 @@
 @endpush
 
 @push('js-inline')
-    <script async>
+    <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            $('input.date-pick, .input-daterange, .date-pick-inline').datepicker({
+            $('.date-pick').datepicker({
                 todayHighlight: true,
                 language: "tr",
                 format: 'dd.mm.yyyy',
                 startDate: new Date()
             });
 
-            $('input.date-pick, .input-daterange input[name="pick_at"]').datepicker().on('changeDate', function () {
+            var pick_at = $('input[name="pick_at"]');
+            var drop_at = $('input[name="drop_at"]');
+
+            function dropMinDate() {
+                var start_at = new Date(pick_at.datepicker('getDate'));
+                start_at.setDate(start_at.getDate()+1);
+                drop_at.datepicker('setStartDate', start_at);
+                drop_at.datepicker('setDate', start_at);
+            }
+
+            pick_at.datepicker().on('changeDate', function () {
+                dropMinDate();
                 $(this).datepicker('hide');
-                $('.input-daterange input[name="drop_at"]').datepicker("show");
             });
 
-            $('.input-daterange input[name="drop_at"]').datepicker().on('changeDate',function () {
+            drop_at.datepicker('setDate', '+2d').on('changeDate', function () {
                 $(this).datepicker('hide');
             });
 

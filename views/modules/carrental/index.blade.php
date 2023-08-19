@@ -162,8 +162,8 @@
 @endpush
 
 @push('js-inline')
-    <script>
-        (function () {
+        <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
             $('.date-pick').datepicker({
                 todayHighlight: true,
                 language: "tr",
@@ -176,7 +176,7 @@
 
             function dropMinDate() {
                 var start_at = new Date(pick_at.datepicker('getDate'));
-                start_at.setDate(start_at.getDate() + 1);
+                start_at.setDate(start_at.getDate()+1);
                 drop_at.datepicker('setStartDate', start_at);
                 drop_at.datepicker('setDate', start_at);
             }
@@ -186,10 +186,9 @@
                 $(this).datepicker('hide');
             });
 
-            drop_at.datepicker().on('changeDate', function () {
+            drop_at.datepicker('setDate', '+2d').on('changeDate', function () {
                 $(this).datepicker('hide');
             });
-
 
             $('input.time-pick').timepicker({
                 minuteStep: 15,
@@ -198,6 +197,6 @@
             });
 
             $('select').select2();
-        })(jQuery);
+        });
     </script>
 @endpush
